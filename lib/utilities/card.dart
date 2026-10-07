@@ -1,7 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:hotel/hotel.dart';
+import 'package:hotel/models/hotel.dart';
 
 class Carta extends StatelessWidget {
   const Carta({

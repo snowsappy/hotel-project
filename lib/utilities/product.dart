@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hotel/hotel.dart';
+import 'package:hotel/models/hotel.dart';
 
 class Cartapresentacion extends StatelessWidget {
   const Cartapresentacion({super.key, required this.hotel});
