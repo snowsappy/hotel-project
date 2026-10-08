@@ -97,6 +97,7 @@ class _Inicio extends State<Inicio> {
 
   @override
   Widget build(BuildContext context) {
+    final nombre=ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       backgroundColor: Color(0xff101d25),
       drawer: Drawer(
@@ -105,7 +106,7 @@ class _Inicio extends State<Inicio> {
             SizedBox(height: 300),
             ListTile(
               leading: Icon(Icons.add),
-              onTap: () => Navigator.pushNamed(context, "/Admin/agregar"),
+              onTap: () => Navigator.pushNamed(context, "/Admin/agregar" ),
               title: Text("New destination"),
             ),
             ListTile(
@@ -120,16 +121,28 @@ class _Inicio extends State<Inicio> {
             ),
             ListTile(
               leading: Icon(Icons.logout),
-              onTap: () => Navigator.pushNamed(context, "/Admin/salir"),
+              onTap: () => Navigator.pushNamed(context, "/"),
               title: Text("log out"),
             ),
           ],
         ),
       ),
       appBar: AppBar(
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu,color: Colors.white,),
+              onPressed: () {
+                // 3. Al usar Builder, este 'context' ya está debajo del Scaffold
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        )
+        ,
         forceMaterialTransparency: true,
         title: Text(
-          "where you wanna stay,\nlinda?",
+          "where you wanna stay,\n$nombre}?",
           style: TextStyle(color: Colors.white,),
         ),
         centerTitle: false,
@@ -144,7 +157,7 @@ class _Inicio extends State<Inicio> {
                   padding: const EdgeInsets.all(8.0),
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 300),
-                    width: buscando ? 250 : 50,
+                    width: buscando ? 250 : 40,
                     child: buscando
                         ? TextField(
                             onChanged: (e) => buscar(e),

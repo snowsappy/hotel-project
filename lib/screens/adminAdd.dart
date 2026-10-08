@@ -6,6 +6,8 @@ import 'package:hotel/models/hotel.dart';
 class Destinos extends StatefulWidget {
   const Destinos({super.key});
 
+
+
   @override
   State<Destinos> createState() => _Destinos();
 }
