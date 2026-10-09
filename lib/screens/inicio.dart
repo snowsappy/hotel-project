@@ -6,6 +6,7 @@ import 'package:hotel/controllers/hotelControllers.dart';
 import 'package:hotel/models/hotel.dart';
 import 'package:hotel/utilities/card.dart';
 import 'package:hotel/utilities/product.dart';
+import 'package:rive/rive.dart';
 
 class Inicio extends StatefulWidget {
   const Inicio({super.key});
@@ -15,7 +16,8 @@ class Inicio extends StatefulWidget {
 }
 
 class _Inicio extends State<Inicio> {
-  String filtro="";
+  String filtro = "";
+  final navitems = [Icons.home, Icons.home, Icons.home, Icons.home];
   final lista = [
     Hotel(
       nombre: "Mountain rainer,USA",
@@ -42,6 +44,7 @@ class _Inicio extends State<Inicio> {
       favoritos: false,
     ),
   ];
+  int seleccion = 0;
   bool buscando = false;
   final minicarta_lista = [
     Hotel(
@@ -70,9 +73,8 @@ class _Inicio extends State<Inicio> {
     ),
   ];
 
-  void filtrar(){
+  void filtrar() {}
 
-  }
   void animar() {
     buscando = !buscando;
     print(buscando);
@@ -90,23 +92,59 @@ class _Inicio extends State<Inicio> {
 
   void buscar(String eso) {
     minicarta_lista.where((x) => x.nombre.contains(eso)).toList();
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final nombre=ModalRoute.of(context)!.settings.arguments;
+    final nombre = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
+      extendBody: true,
       backgroundColor: Color(0xff101d25),
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          height: 56,
+          margin: EdgeInsets.symmetric(horizontal: 50),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Color(0xff222839),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: List.generate(navitems.length, ((index) {
+              bool activo = seleccion == index;
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    seleccion = index;
+                  });
+                },
+                child: AnimatedContainer(
+                  width: activo?80 :40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: activo ? Colors.greenAccent : Colors.transparent,
+                  ),
+                  duration: Duration(milliseconds: 500),
+                  child: Icon(
+                    navitems[index],
+                    color: activo ? Color(0xff1a1f35) : Colors.white,
+                  ),
+                ),
+              );
+            })),
+          ),
+        ),
+      ),
+
       drawer: Drawer(
         child: Column(
           children: [
             SizedBox(height: 300),
             ListTile(
               leading: Icon(Icons.add),
-              onTap: () => Navigator.pushNamed(context, "/Admin/agregar" ),
+              onTap: () => Navigator.pushNamed(context, "/Admin/agregar"),
               title: Text("New destination"),
             ),
             ListTile(
@@ -131,19 +169,17 @@ class _Inicio extends State<Inicio> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(Icons.menu,color: Colors.white,),
+              icon: Icon(Icons.menu, color: Colors.white),
               onPressed: () {
-                // 3. Al usar Builder, este 'context' ya está debajo del Scaffold
                 Scaffold.of(context).openDrawer();
               },
             );
           },
-        )
-        ,
+        ),
         forceMaterialTransparency: true,
         title: Text(
           "where you wanna stay,\n$nombre}?",
-          style: TextStyle(color: Colors.white,),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: false,
         actions: [
@@ -203,29 +239,36 @@ class _Inicio extends State<Inicio> {
                       child: Text("All"),
                     ),*/
                     TextButton(
-                      onPressed: () {filtro="forest";
-                        lista.where((x) => x.nombre.contains("Forest")).toList();
-                        setState(() {
-
-                        });
+                      onPressed: () {
+                        filtro = "forest";
+                        lista
+                            .where((x) => x.nombre.contains("Forest"))
+                            .toList();
+                        setState(() {});
                       },
                       child: Text("Field"),
                     ),
                     TextButton(
                       onPressed: () {
-                        lista.where((x) => x.nombre.contains("Forest")).toList();
+                        lista
+                            .where((x) => x.nombre.contains("Forest"))
+                            .toList();
                       },
                       child: Text("Mountain"),
                     ),
                     TextButton(
                       onPressed: () {
-                        lista.where((x) => x.nombre.contains("Forest")).toList();
+                        lista
+                            .where((x) => x.nombre.contains("Forest"))
+                            .toList();
                       },
                       child: Text("Beach"),
                     ),
                     TextButton(
                       onPressed: () {
-                        lista.where((x) => x.nombre.contains("Forest")).toList();
+                        lista
+                            .where((x) => x.nombre.contains("Forest"))
+                            .toList();
                       },
                       child: Text("Forest"),
                     ),
@@ -233,7 +276,7 @@ class _Inicio extends State<Inicio> {
                 ),
               ),
             ),
-            if(filtro=="")
+            if (filtro == "")
               Container(
                 height: 450,
                 child: ListView.builder(
@@ -249,8 +292,8 @@ class _Inicio extends State<Inicio> {
               height: 80,
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(filtro!="" ?"based on your choices":
-                  "Near to you",
+                child: Text(
+                  filtro != "" ? "based on your choices" : "Near to you",
                   style: TextStyle(color: Colors.white, fontSize: 24),
                 ),
               ),
@@ -265,7 +308,6 @@ class _Inicio extends State<Inicio> {
                 itemCount: lista.length,
                 itemBuilder: (context, index) =>
                     Cartapresentacion(hotel: minicarta_lista[index]),
-
               ),
             ),
           ],
