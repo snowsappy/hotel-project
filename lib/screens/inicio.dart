@@ -6,7 +6,6 @@ import 'package:hotel/controllers/hotelControllers.dart';
 import 'package:hotel/models/hotel.dart';
 import 'package:hotel/utilities/card.dart';
 import 'package:hotel/utilities/product.dart';
-import 'package:rive/rive.dart';
 
 class Inicio extends StatefulWidget {
   const Inicio({super.key});
